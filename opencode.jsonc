@@ -46,51 +46,68 @@
   //    غيّر المفتاح بس في متغير البيئة، الكود ما بيتغيرش.
   // ==========================================================================
   "providers": {
-    // --- OpenRouter (موديلات :free) ---
+    // --- OpenRouter (موديلات :free — الـ IDs متحقق منها من API في أكتوبر 2026) ---
+    // كل الموديلات دي بتدعم tool calling (شرط أساسي لوكيل برمجة).
     "openrouter-free": {
       "name": "OpenRouter (Free)",
       "env": ["OPENROUTER_API_KEY"],
       "package": "@opencode/ai/providers/openai-compatible",
       "settings": { "baseURL": "https://openrouter.ai/api/v1" },
       "models": {
-        "qwen3-coder": {
-          "name": "Qwen3 Coder (free)",
-          "modelID": "qwen/qwen3-coder:free",
+        // أقوى موديل برمجة مجاني حاليًا — 70.2% على Terminal-Bench 2.1
+        "laguna-s": {
+          "name": "Laguna S 2.1 (coding)",
+          "modelID": "poolside/laguna-s-2.1:free",
         },
-        "deepseek-v3": {
-          "name": "DeepSeek V3 (free)",
-          "modelID": "deepseek/deepseek-chat-v3-0324:free",
+        // مُدرَّب صراحةً على وكيلات زي OpenCode — سياق 256K
+        "north-mini-code": {
+          "name": "North Mini Code (coding)",
+          "modelID": "cohere/north-mini-code:free",
+        },
+        // سياق 1M — مناسب للمهام الطويلة
+        "nemotron-3-ultra": {
+          "name": "Nemotron 3 Ultra (1M ctx)",
+          "modelID": "nvidia/nemotron-3-ultra-550b-a55b:free",
+        },
+        // راوتر بيختار موديل مجاني تلقائيًا حسب المهمة
+        "free-router": {
+          "name": "Free Router (auto)",
+          "modelID": "openrouter/free",
         },
       },
     },
 
-    // --- Groq (سريع ومجاني) ---
+    // --- Groq (سريع جدًا) ---
+    // ملاحظة: llama-3.3-70b-versatile اتلغي في 08/2026 — الاستبدال الرسمي مكتوب هنا.
     "groq-free": {
-      "name": "Groq (Free)",
+      "name": "Groq",
       "env": ["GROQ_API_KEY"],
       "package": "@opencode/ai/providers/openai-compatible",
       "settings": { "baseURL": "https://api.groq.com/openai/v1" },
       "models": {
-        "llama-3.3-70b": {
-          "name": "Llama 3.3 70B",
-          "modelID": "llama-3.3-70b-versatile",
+        "gpt-oss-120b": {
+          "name": "GPT-OSS 120B",
+          "modelID": "openai/gpt-oss-120b",
+        },
+        "qwen3.8-27b": {
+          "name": "Qwen3.8 27B",
+          "modelID": "qwen/qwen3.8-27b",
         },
       },
     },
 
     // --- Google Gemini (التوافق مع OpenAI) ---
+    // gemini-2.5-flash مقيّد للعملاء القدام — الحالي 3.8.
     "gemini-free": {
-      "name": "Gemini (Free)",
+      "name": "Gemini",
       "env": ["GEMINI_API_KEY"],
       "package": "@opencode/ai/providers/openai-compatible",
       "settings": {
         "baseURL": "https://generativelanguage.googleapis.com/v1beta/openai/",
       },
       "models": {
-        "gemini-flash": {
-          "name": "Gemini Flash",
-          "modelID": "gemini-2.5-flash",
-        },
+        "gemini-3.8-flash": { "name": "Gemini 3.8 Flash" },
+        "gemini-3.6-flash": { "name": "Gemini 3.6 Flash" },
       },
     },
 
