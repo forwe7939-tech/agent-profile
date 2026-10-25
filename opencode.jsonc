@@ -1,0 +1,130 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  // ==========================================================================
+  // 1) الحدود (LIMITS) — قواعد صارحة ومرتّبة.
+  //    القاعدة: آخر قاعدة مطابقة هي اللي تُطبّق.
+  //    الافتراضي في OpenCode: أي حاجة مالهاش قاعدة = "اسأل".
+  // ==========================================================================
+  "permissions": [
+    // --- الأوامر(shell) ---
+    { "action": "shell", "resource": "*", "effect": "ask" },
+    { "action": "shell", "resource": "git status *", "effect": "allow" },
+    { "action": "shell", "resource": "git diff *", "effect": "allow" },
+    { "action": "shell", "resource": "git log *", "effect": "allow" },
+    { "action": "shell", "resource": "git add *", "effect": "allow" },
+    { "action": "shell", "resource": "git commit *", "effect": "allow" },
+    { "action": "shell", "resource": "git push *", "effect": "deny" },
+    { "action": "shell", "resource": "rm -rf *", "effect": "deny" },
+    { "action": "shell", "resource": "git reset --hard *", "effect": "deny" },
+    { "action": "shell", "resource": "git clean *", "effect": "deny" },
+
+    // --- الملفات ---
+    { "action": "read", "resource": "*", "effect": "allow" },
+    { "action": "edit", "resource": "*", "effect": "ask" },
+    { "action": "glob", "resource": "*", "effect": "allow" },
+    { "action": "grep", "resource": "*", "effect": "allow" },
+
+    // --- البرّا: لازم إذن ---
+    { "action": "external_directory", "resource": "*", "effect": "ask" },
+
+    // --- الإنترنت ---
+    { "action": "webfetch", "resource": "*", "effect": "allow" },
+    { "action": "websearch", "resource": "*", "effect": "allow" },
+
+    // --- الأسئلة والوكيل الفرعي ---
+    { "action": "question", "resource": "*", "effect": "allow" },
+    { "action": "subagent", "resource": "*", "effect": "ask" },
+
+    // --- الـ Skills: الافتراضي مسموح، والمحظور صريح ---
+    { "action": "skill", "resource": "*", "effect": "allow" },
+    { "action": "skill", "resource": "internal-*", "effect": "deny" },
+  ],
+
+  // ==========================================================================
+  // 2) موديلات مجانية — أي API متوافق مع OpenAI يشتغل هنا بدون كود.
+  //    غيّر المفتاح بس في متغير البيئة، الكود ما بيتغيرش.
+  // ==========================================================================
+  "providers": {
+    // --- OpenRouter (موديلات :free) ---
+    "openrouter-free": {
+      "name": "OpenRouter (Free)",
+      "env": ["OPENROUTER_API_KEY"],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": { "baseURL": "https://openrouter.ai/api/v1" },
+      "models": {
+        "qwen3-coder": {
+          "name": "Qwen3 Coder (free)",
+          "modelID": "qwen/qwen3-coder:free",
+        },
+        "deepseek-v3": {
+          "name": "DeepSeek V3 (free)",
+          "modelID": "deepseek/deepseek-chat-v3-0324:free",
+        },
+      },
+    },
+
+    // --- Groq (سريع ومجاني) ---
+    "groq-free": {
+      "name": "Groq (Free)",
+      "env": ["GROQ_API_KEY"],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": { "baseURL": "https://api.groq.com/openai/v1" },
+      "models": {
+        "llama-3.3-70b": {
+          "name": "Llama 3.3 70B",
+          "modelID": "llama-3.3-70b-versatile",
+        },
+      },
+    },
+
+    // --- Google Gemini (التوافق مع OpenAI) ---
+    "gemini-free": {
+      "name": "Gemini (Free)",
+      "env": ["GEMINI_API_KEY"],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://generativelanguage.googleapis.com/v1beta/openai/",
+      },
+      "models": {
+        "gemini-flash": {
+          "name": "Gemini Flash",
+          "modelID": "gemini-2.5-flash",
+        },
+      },
+    },
+
+    // --- Ollama (محلي — صفر توكنز، صفر إنترنت) ---
+    "ollama-local": {
+      "name": "Ollama (Local)",
+      "env": [],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": { "baseURL": "http://127.0.0.1:11434/v1" },
+      "models": {
+        "qwen3-coder-local": { "name": "Qwen3 Coder (local)" },
+      },
+    },
+  },
+
+  // ==========================================================================
+  // 3) الـ Skills — مستودع بيتحدّث تلقائيًا من غير ما نلمس الكود.
+  //    محليًا: مجلد على القرص (يتحدّث بـ git pull).
+  //    للنشر: غيّره لـ https://raw.githubusercontent.com/<user>/<repo>/main/skills-hub/
+  //           وهو HTTP catalog بـ index.json — التحديث بزيادة "version" فقط.
+  // ==========================================================================
+  "skills": ["./skills-hub"],
+
+  // ==========================================================================
+  // 4) ضبط استهلاك السياق
+  // ==========================================================================
+  "compaction": {
+    "auto": true,
+    "keep": { "tokens": 15000 },
+    "buffer": 20000,
+  },
+
+  "tool_output": {
+    "max_lines": 2000,
+    "max_bytes": 51200,
+  },
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "skills": [
+    {
+      "name": "master",
+      "version": "1",
+      "files": ["SKILL.md", "references/rules.md", "references/checklists.md"]
+    }
+  ]
+}
