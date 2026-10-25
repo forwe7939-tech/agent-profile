@@ -14,7 +14,8 @@
     { "action": "shell", "resource": "git log *", "effect": "allow" },
     { "action": "shell", "resource": "git add *", "effect": "allow" },
     { "action": "shell", "resource": "git commit *", "effect": "allow" },
-    { "action": "shell", "resource": "git push *", "effect": "deny" },
+    // push needs human approval in the moment it happens.
+    { "action": "shell", "resource": "git push *", "effect": "ask" },
     { "action": "shell", "resource": "rm -rf *", "effect": "deny" },
     { "action": "shell", "resource": "git reset --hard *", "effect": "deny" },
     { "action": "shell", "resource": "git clean *", "effect": "deny" },
