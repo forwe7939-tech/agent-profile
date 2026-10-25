@@ -127,10 +127,10 @@
   // ==========================================================================
   // 3) الـ Skills — مستودع بيتحدّث تلقائيًا من غير ما نلمس الكود.
   //    محليًا: مجلد على القرص (يتحدّث بـ git pull).
-  //    للنشر: غيّره لـ https://raw.githubusercontent.com/<user>/<repo>/main/skills-hub/
+  //    للنشر: غيّره لـ https://raw.githubusercontent.com/<user>/<repo>/<branch>/skills-hub/
   //           وهو HTTP catalog بـ index.json — التحديث بزيادة "version" فقط.
-  // ==========================================================================
-  "skills": ["./skills-hub"],
+  //           (الفرع عندنا master وليس main)
+  "skills": ["https://raw.githubusercontent.com/forwe7939-tech/agent-profile/master/skills-hub/"],
 
   // ==========================================================================
   // 4) ضبط استهلاك السياق

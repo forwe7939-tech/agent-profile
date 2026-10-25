@@ -3,7 +3,7 @@
   "skills": [
     {
       "name": "master",
-      "version": "1",
+      "version": "2",
       "files": ["SKILL.md", "references/rules.md", "references/checklists.md"]
     }
   ]
